@@ -48,7 +48,7 @@ public class TestController {
 	// application.yml DB 접속 정보 추가
 	// logback-spring.ㅌml 추가
 	
-	//URL : http://localhost8050/test4
+	//URL : http://localhost:8050/test4
 	@ResponseBody
 	@GetMapping("/test4")
 	public List<Map<String, Object>> test4() {
