@@ -46,7 +46,7 @@ public class TestController {
 	// SnsApplication DB 설정 안 보는 설정 제거
 	// DatabaseConfig 클래스 추가
 	// application.yml DB 접속 정보 추가
-	// logback-spring.ㅌml 추가
+	// logback-spring.xml 추가
 	
 	//URL : http://localhost:8050/test4
 	@ResponseBody
