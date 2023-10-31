@@ -77,12 +77,14 @@
 					if (data.code == 200) {
 						$("#idCheckOk").removeClass("d-none");
 					} else {
-						$("#idCheckDuplicated").addClass("d-none");
+						$("#idCheckDuplicated").removeClass("d-none");
 					}
 				}
 				
-				
-			})
+				,error (request,status, error) {
+					alert("중복확인 실패")
+				}
+			});
 			
 			
 		});
@@ -90,7 +92,68 @@
 		$("#signUpForm").on("submit", function(e) {
 			e.preventDefault();
 			
-			alert("클릭");
+			// alert("클릭");
+			
+			var loginId = $("#loginId").val().trim();
+			var password = $("input[name=password]").val();
+			var confirmPassword = $("input[name=confirmPassword]").val();
+			var name = $("input[name=name]").val();
+			var email = $("input[name=email]").val();
+			
+			if (!loginId) {
+				alert("아이디를 입력해주세요.");
+				return false;
+			}
+			
+			if (!password || !confirmPassword) {
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			}
+			
+			if (password != confirmPassword) {
+				alert("비밀번호가 일치하지 않습니다.");
+				return false;
+			}
+			
+			if (!name) {
+				alert("이름을 입력해주세요.");
+				return false;
+			}
+			
+			if (!email) {
+				alert("이메일을 입력해주세요.");
+				return false;
+			}
+			
+			if ($('#idCheckOk').hasClass('d-none')){
+				alert("아이디 중복확인을 해주세요.")
+				return false;
+			}
+			
+			
+			let url = $(this).attr("action");
+			console.log(url);
+			let params = $(this).serialize();
+			
+			$.post(url, params)
+			.done(function(data) {
+				
+				if (data.code == 200) {
+					//성공
+					alert("가입을 환영합니다. 로그인을 해주세요")
+					location.href = "/user/sign-in-view";
+				} else {
+					// 로직 실패
+					alert(data.errorMessage);
+				}
+				
+				
+				
+			});
+			
+				
+			
+			
 		});
 	});
 </script>

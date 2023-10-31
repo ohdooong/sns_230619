@@ -12,10 +12,21 @@ public class UserBO {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public UserEntity getUserEntityByLoginId(String memberId) {
-		return userRepository.findByLoginId(memberId);
+	public UserEntity getUserEntityByMemberId(String memberId) {
+		return userRepository.findByMemberId(memberId);
 	}
 	
+	public Integer addUser(String memberId, String password, String name, String email) {
+		UserEntity userEntity = userRepository.save(
+				UserEntity.builder()
+				.memberId(memberId)
+				.password(password)
+				.userName(name)
+				.email(email)
+				.build());
+		
+		return userEntity == null ? null : userEntity.getId();
+	}
 	
 	
 }

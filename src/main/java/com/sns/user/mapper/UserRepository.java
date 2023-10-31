@@ -8,6 +8,6 @@ import com.sns.user.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
-	public UserEntity findByLoginId(String memberId);
+	public UserEntity findByMemberId(String memberId);
 	
 }
