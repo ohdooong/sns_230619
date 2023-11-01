@@ -1,4 +1,4 @@
-package com.sns.user.mapper;
+package com.sns.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +10,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
 	public UserEntity findByMemberId(String memberId);
 	
+	public UserEntity findByMemberIdAndPassword (String memberId, String password);
 }

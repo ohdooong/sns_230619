@@ -1,5 +1,7 @@
 package com.sns.user;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +13,12 @@ public class UserController {
 
 	
 	
-	// http:localhost:8050/user/sign-up-view
 	/**
 	 * 회원가입 화면
 	 * @param model
 	 * @return
 	 */
+	// http:localhost:8050/user/sign-up-view
 	@GetMapping("/sign-up-view")
 	public String signUpView(Model model) {
 		
@@ -36,5 +38,13 @@ public class UserController {
 		return "template/layout";
 	}
 	
+	@GetMapping("/sign-out")
+	public String signOut(HttpSession session) {
+		session.removeAttribute("userId");
+		session.removeAttribute("userName");
+		session.removeAttribute("userLoginId");
+		
+		return "redirect:/user/sign-in-view";
+	}
 	
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sns.user.entity.UserEntity;
-import com.sns.user.mapper.UserRepository;
+import com.sns.user.repository.UserRepository;
 
 @Service
 public class UserBO {
@@ -14,6 +14,9 @@ public class UserBO {
 	
 	public UserEntity getUserEntityByMemberId(String memberId) {
 		return userRepository.findByMemberId(memberId);
+	}
+	public UserEntity getUserEntityByMemberIdPassword (String memberId, String password) {
+		return userRepository.findByMemberIdAndPassword(memberId, password);
 	}
 	
 	public Integer addUser(String memberId, String password, String name, String email) {
@@ -27,6 +30,7 @@ public class UserBO {
 		
 		return userEntity == null ? null : userEntity.getId();
 	}
+	
 	
 	
 }

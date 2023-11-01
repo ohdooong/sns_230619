@@ -147,8 +147,6 @@
 					alert(data.errorMessage);
 				}
 				
-				
-				
 			});
 			
 				

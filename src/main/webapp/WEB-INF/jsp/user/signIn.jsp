@@ -30,8 +30,41 @@ pageEncoding="UTF-8"%>
 
 
 <script>
-
-
-
+	$(document).ready(function() {
+		
+		$("#loginForm").on("submit", function(e) {
+			e.preventDefault();
+			
+			alert("클릭");
+			
+			let loginId = $("input[name = loginId]").val().trim();
+			let password = $("#password").val();
+			
+			if (!loginId) {
+				alert("아이디를 입력해주세요.");
+				return false;
+			}
+			if (!password) {
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			}
+			
+			let url = $("#loginForm").attr("action");
+			let params = $("#loginForm").serialize();
+			
+			$.post(url, params)
+			.done(function(data) {
+				if (data.code == 200) {
+					// 로그인 성공
+					// 타임라인으로 이동
+					location.href = "";
+				} else {
+					alert(data.errorMessage);
+					// 로직 실패
+				}
+			});
+		});
+		
+	});
 
 </script>
