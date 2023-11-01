@@ -35,8 +35,6 @@ pageEncoding="UTF-8"%>
 		$("#loginForm").on("submit", function(e) {
 			e.preventDefault();
 			
-			alert("클릭");
-			
 			let loginId = $("input[name = loginId]").val().trim();
 			let password = $("#password").val();
 			
@@ -57,7 +55,7 @@ pageEncoding="UTF-8"%>
 				if (data.code == 200) {
 					// 로그인 성공
 					// 타임라인으로 이동
-					location.href = "";
+					location.href="/timeline/timeline-view";     ///timeline/timeline-view
 				} else {
 					alert(data.errorMessage);
 					// 로직 실패

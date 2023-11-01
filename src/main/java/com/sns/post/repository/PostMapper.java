@@ -1,4 +1,4 @@
-package com.sns.post.mapper;
+package com.sns.post.repository;
 
 import java.util.List;
 import java.util.Map;
