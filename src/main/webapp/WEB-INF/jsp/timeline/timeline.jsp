@@ -163,7 +163,7 @@
 			
 			
 			// 내용 유효성 검사
-			if (!content) {
+			if (!contents) {
 				alert("게시할 내용을 입력해주십시오.")
 				return;
 			}
@@ -177,6 +177,7 @@
 				// request
 				type:"POST"
 				, url:"/post/create"
+				, data:formData
 				, enctype:"multipart/form-data"   // 약속된 정의어  =>  파일 업로드를 위한 필수 설정!!!!!!!!!!!
 				, processData:false // 파일 업로드를 위한 필수 설정!!!!!!!!!!!
 				, contentType:false // 파일 업로드를 위한 필수 설정!!!!!!!!!!!

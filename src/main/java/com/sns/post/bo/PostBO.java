@@ -24,12 +24,17 @@ public class PostBO {
 	}
 	
 	public void addPost(int userId, String userLoginId, String contents, MultipartFile file) {
-		String imagePath;
+		String imagePath = null;
 		
 		if (file != null) {
-			imagePath = 
+			imagePath = filemanager.saveFile(userLoginId, file);
 		}
 		
+		postRepository.save(Post.builder()
+				.userId(userId)
+				.contents(contents)
+				.imagePath(imagePath)
+				.build());
 	}
 	
 	

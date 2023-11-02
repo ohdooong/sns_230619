@@ -35,6 +35,9 @@ public class TimelineRestController {
 		
 		Map<String, Object> result = new HashMap<>();
 		
+		result.put("code", 200);
+		result.put("result", "success");
+		
 		return result;
 	}
 	

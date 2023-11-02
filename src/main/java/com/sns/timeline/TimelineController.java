@@ -34,6 +34,7 @@ public class TimelineController {
 		
 		posts = postBO.getPostList();
 		
+		
 		model.addAttribute("posts", posts);
 		model.addAttribute("viewName", "timeline/timeline");
 		return "template/layout";
