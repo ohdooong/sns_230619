@@ -39,6 +39,8 @@
 
 <div class="d-flex justify-content-center">
 	<div class="contents-box">
+	
+	
 		<%-- 글쓰기 영역 --%>
 		<div class="write-box border rounded m-3">
 			<textarea id="writeTextArea" placeholder="내용을 입력해주세요" class="w-100 border-0"></textarea>
@@ -46,11 +48,21 @@
 			<%-- 이미지 업로드를 위한 아이콘과 업로드 버튼을 한 행에 멀리 떨어뜨리기 위한 div --%>
 			<div class="d-flex justify-content-between">
 				<div class="file-upload d-flex">
+				
+					<%-- file 태그를 숨겨두고 이미지를 클릭하면 file 태그를 클릭한 효과 --%>
+					<input type="file" id="file" accept=".jpg, .jpeg, .png, .gif" class="d-none">
 					<a href="#" id="fileUploadBtn"><img width="35" src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-image-512.png"></a>
+					
+					<%-- 업로드 된 임시 파일명 노출 --%>
+					<div id="fileName" class="ml-2"></div>
+					
 				</div>
 				<button id="writeBtn" class="btn btn-info">게시</button>
 			</div>
 		</div> <%--// 글쓰기 영역 끝 --%>
+		
+		
+		
 		
 		
 		<%-- 타임라인 영역 --%>
@@ -113,3 +125,82 @@
 		</div> <%--// 타임라인 영역 끝  --%>
 	</div> <%--// contents-box 끝  --%>
 </div>
+
+<script>
+	$(document).ready(function() {
+		
+		// 파일이미지 클릭 => 숨겨져 있던 type="file"을 동작시킨다.
+		$("#fileUploadBtn").on("click", function(e) {
+			e.preventDefault();	// a 태그의 올라가는 현상 방지
+			$("#file").click();
+		});
+		
+		// 이미지를 선택하는 순간 -> 유효성 확인 및 업로드 된 파일명 노출
+		$("#file").on("change", function(e) {
+			let fileName = e.target.files[0].name;
+			//console.log(fileName);
+			
+			// 확장자 유효성 확인
+			let ext = fileName.split(".").pop().toLowerCase();
+			console.log(ext);
+			
+			if(ext != "jpg" && ext != "jpeg" && ext != "png" && ext != "gif"){
+				alert("이미지 파일만 업로드 할 수 있습니다.");
+				$("#file").val("");       // 이미지 파일 등록안했으면 파일을 비운다.
+				return;
+			}
+			
+			// 유효성 통과한 이미지 이름   =>   노출
+			// text function으로 태그사이에 파일명을 껴 넣는다.
+			$("#fileName").text(fileName);
+		});
+		
+		
+		// 글쓰기 버튼 클릭
+		$("#writeBtn").on("click", function() {
+			
+			let contents = $("#writeTextArea").val();
+			
+			
+			// 내용 유효성 검사
+			if (!content) {
+				alert("게시할 내용을 입력해주십시오.")
+				return;
+			}
+			
+			let formData = new FormData();
+			formData.append("contents", contents);
+			formData.append("file",$("#file")[0].files[0])
+			
+			$.ajax({
+				
+				// request
+				type:"POST"
+				, url:"/post/create"
+				, enctype:"multipart/form-data"   // 약속된 정의어  =>  파일 업로드를 위한 필수 설정!!!!!!!!!!!
+				, processData:false // 파일 업로드를 위한 필수 설정!!!!!!!!!!!
+				, contentType:false // 파일 업로드를 위한 필수 설정!!!!!!!!!!!
+				
+				//response
+				, success:function(data) {
+					if (data.code == 200) {
+						alert("저장되었습니다.");
+						location.href="/timeline/timeline-view";
+					} else {
+						// 로직 실패
+						
+					}
+				}
+				
+			});
+			
+			
+		});
+		
+	});
+
+
+</script>
+
+
+

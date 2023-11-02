@@ -29,6 +29,7 @@ public class TimelineController {
 		if (userId == null) {
 			return "redirect:/user/sign-in-view";
 		}
+		
 		List<Post> posts = new ArrayList<>();
 		
 		posts = postBO.getPostList();

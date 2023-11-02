@@ -10,7 +10,4 @@ import com.sns.post.entity.Post;
 @Repository
 public interface PostRepository extends JpaRepository<Post,Integer>{
 	
-	
-	
-	
 }
