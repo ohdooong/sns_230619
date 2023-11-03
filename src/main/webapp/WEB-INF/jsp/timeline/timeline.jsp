@@ -67,11 +67,13 @@
 		
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
-			<%-- 카드1 --%>
+			
+			<c:forEach items="${posts}" var="post">
+			<%-- 카드 --%>
 			<div class="card border rounded mt-3">
 				<%-- 글쓴이, 더보기(삭제) --%>
 				<div class="p-2 d-flex justify-content-between">
-					<span class="font-weight-bold">글쓴이</span>
+					<span class="font-weight-bold">${post.userId}</span>
 					
 					<a href="#" class="more-btn">
 						<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
@@ -80,21 +82,22 @@
 				
 				<%-- 카드 이미지 --%>
 				<div class="card-img">
-					<img src="https://cdn.pixabay.com/photo/2023/10/28/18/02/songbird-8348139_1280.png" class="w-100" height="600" alt="본문 이미지">
+					<img src="${post.imagePath}" class="w-100" height="600" alt="본문 이미지">
 				</div>
 				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
 					<a href="#" class="like-btn">
-						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="filled heart">
+						<img id="filledHeart" src="/static/img/timeline/heart-icon-filled.png" width="18" height="18" alt="filled heart" class="">
+						<img id="emptyHeart" src="/static/img/timeline/heart-icon.png" width="18" height="18" alt="filled heart" class="d-none">
 					</a>
-					좋아요 11개
+				좋아요 156개
 				</div>
 				
 				<%-- 글 --%>
 				<div class="card-post m-3">
-					<span class="font-weight-bold">글쓴이</span>
-					<span>글 내용</span>
+					<span class="font-weight-bold">${post.userId}</span>
+					<span>${post.contents}</span>
 				</div>
 				
 				<%-- 댓글 제목 --%>
@@ -104,30 +107,87 @@
 				
 				<%-- 댓글 목록 --%>
 				<div class="card-comment-list m-2">
+				
+					<c:forEach items="${comments}" var="comment">
+					<c:if test="${comment.postId eq post.id}">
 					<%-- 댓글 내용들 --%>
 					<div class="card-comment m-1">
-						<span class="font-weight-bold">댓글쓴이</span>
-						<span>댓글 내용</span>
+						<span class="font-weight-bold">${comment.userId}</span>
+						<span>${comment.comments}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
 						<a href="#" class="comment-del-btn">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10" height="10">
 						</a>
 					</div>
-					
+					</c:if>
+					</c:forEach>
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
-						<button type="button" class="comment-btn btn btn-light" data-post-id="${card.post.id}">게시</button>
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
 					</div>
 				</div> <%--// 댓글 목록 끝 --%>
 			</div> <%--// 카드1 끝 --%>
+			</c:forEach>
 		</div> <%--// 타임라인 영역 끝  --%>
 	</div> <%--// contents-box 끝  --%>
 </div>
 
 <script>
 	$(document).ready(function() {
+		
+		
+		$(".comment-btn").on("click", function() {
+			
+			let postId = $(this).data("post-id");
+			let comment = $(this).prev().val();
+			
+			if(!comment) {
+				alert("댓글을 입력해주세요.");
+				return;
+			}
+			
+			/* $.ajax({
+				//request
+				type:"GET"
+				, url:"/comment/create"
+				, data:{"postId":postId, "comment":comment}
+			
+				//response
+				, success:function(data){
+					if(data.code == 200) {
+						
+						location.reload();       // 위치 그대로?
+						return;
+					} else {
+						alert(data.errorMessage);
+					}
+				} 
+				
+				, error(request,status,error) {
+					alert("등록 실패");
+				}				
+			}); */
+			
+			let url = "/comment/create";
+			let param = {"postId":postId, "comment":comment}
+			
+			$.post(url, param)
+			.done(function(data) {
+				if(data.code == 200) {
+					
+					location.reload();       // 위치 그대로?
+					return;
+				} else {
+					alert(data.errorMessage);
+				}
+			});
+				
+		
+		})
+		
+		
 		
 		// 파일이미지 클릭 => 숨겨져 있던 type="file"을 동작시킨다.
 		$("#fileUploadBtn").on("click", function(e) {
@@ -160,11 +220,15 @@
 		$("#writeBtn").on("click", function() {
 			
 			let contents = $("#writeTextArea").val();
-			
+			let fileName = $("#fileName").text();
 			
 			// 내용 유효성 검사
 			if (!contents) {
-				alert("게시할 내용을 입력해주십시오.")
+				alert("게시할 내용을 입력해주십시오.");
+				return;
+			}
+			if (!fileName) {
+				alert("사진을 등록해주십시오.");
 				return;
 			}
 			

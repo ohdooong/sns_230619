@@ -1,4 +1,4 @@
-package com.sns.timeline;
+package com.sns.comment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,40 +6,38 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.sns.post.bo.PostBO;
+import com.sns.comment.bo.CommentBO;
 
-@RequestMapping("/post")
+@RequestMapping("/comment")
 @RestController
-public class TimelineRestController {
+public class CommentRestController {
 	
 	@Autowired
-	private PostBO postBO;
+	private CommentBO commentBO;
 	
-	
-	@PostMapping("/create")
+	@RequestMapping("/create")
 	public Map<String, Object> create(
-			@RequestParam("contents") String contents,
-			@RequestParam(value = "file", required = false) MultipartFile file,
+			@RequestParam("postId") int postId,
+			@RequestParam("comment") String comment,
 			HttpSession session) {
 		
 		int userId = (int)session.getAttribute("userId");
-		String userLoginId = (String)session.getAttribute("userLoginId");
 		
-		postBO.addPost(userId, userLoginId, contents, file);
+		//DB INSERT
+		commentBO.addComment(postId, comment, userId);
 		
 		Map<String, Object> result = new HashMap<>();
-		
 		result.put("code", 200);
 		result.put("result", "success");
 		
 		return result;
 	}
+	
 	
 	
 }
