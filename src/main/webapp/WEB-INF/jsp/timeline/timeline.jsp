@@ -42,6 +42,7 @@
 	
 	
 		<%-- 글쓰기 영역 --%>
+		<c:if test="${not empty userName}">
 		<div class="write-box border rounded m-3">
 			<textarea id="writeTextArea" placeholder="내용을 입력해주세요" class="w-100 border-0"></textarea>
 			
@@ -60,9 +61,7 @@
 				<button id="writeBtn" class="btn btn-info">게시</button>
 			</div>
 		</div> <%--// 글쓰기 영역 끝 --%>
-		
-		
-		
+		</c:if>
 		
 		
 		<%-- 타임라인 영역 --%>
@@ -137,7 +136,17 @@
 <script>
 	$(document).ready(function() {
 		
+		// 좋아요 클릭
+		$(".like-btn").on("click", function(e) {
+			e.preventDefault();   // a태그 올라가는 현상 방지
+			
+			// 
+			
+			
+		});
 		
+		
+		// 댓글 게시 버튼 클릭
 		$(".comment-btn").on("click", function() {
 			
 			let postId = $(this).data("post-id");
@@ -207,6 +216,7 @@
 			if(ext != "jpg" && ext != "jpeg" && ext != "png" && ext != "gif"){
 				alert("이미지 파일만 업로드 할 수 있습니다.");
 				$("#file").val("");       // 이미지 파일 등록안했으면 파일을 비운다.
+				$("#fileName").text("");
 				return;
 			}
 			

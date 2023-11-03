@@ -4,9 +4,15 @@
 <mapper namespace="com.sns.post.mapper.PostMapper">
 	<select id="selectPost" resultType="map">
 		SELECT
-			*
+			`id`
+			,`userId`
+			,`contents`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
 		FROM
 			`post`
+		ORDER BY `id` DESC
 	</select>
 </mapper>
 

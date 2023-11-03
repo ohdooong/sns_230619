@@ -15,4 +15,12 @@
 		<a href="/user/sign-out" class="ml-2 text-white font-weight-bold">로그아웃</a>
 	</div>
 	</c:if>
+	
+	<c:if test="${empty userName}">
+	<div class="login-info d-flex align-items-center mr-5">
+		<a href="/user/sign-in-view" class="ml-2 text-white font-weight-bold">로그인</a>
+	</div>
+	</c:if>
+	
+	
 </div>

@@ -35,9 +35,6 @@ public class TimelineController {
 		
 		Integer userId = (Integer)session.getAttribute("userId");
 		
-		if (userId == null) {
-			return "redirect:/user/sign-in-view";
-		}
 		
 		List<Post> posts = new ArrayList<>();
 		List<Comment> comments = new ArrayList<>();
