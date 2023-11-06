@@ -67,12 +67,12 @@
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
 			
-			<c:forEach items="${posts}" var="post">
+			<c:forEach items="${cardList}" var="card">
 			<%-- 카드 --%>
 			<div class="card border rounded mt-3">
 				<%-- 글쓴이, 더보기(삭제) --%>
 				<div class="p-2 d-flex justify-content-between">
-					<span class="font-weight-bold">${post.userId}</span>
+					<span class="font-weight-bold">${card.user.memberId}</span>
 					
 					<a href="#" class="more-btn">
 						<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
@@ -81,7 +81,7 @@
 				
 				<%-- 카드 이미지 --%>
 				<div class="card-img">
-					<img src="${post.imagePath}" class="w-100" height="600" alt="본문 이미지">
+					<img src="${card.post.imagePath}" class="w-100" height="600" alt="본문 이미지">
 				</div>
 				
 				<%-- 좋아요 --%>
@@ -95,8 +95,8 @@
 				
 				<%-- 글 --%>
 				<div class="card-post m-3">
-					<span class="font-weight-bold">${post.userId}</span>
-					<span>${post.contents}</span>
+					<span class="font-weight-bold">${card.post.userId}</span>
+					<span>${card.post.contents}</span>
 				</div>
 				
 				<%-- 댓글 제목 --%>
@@ -124,7 +124,7 @@
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
-						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>     <!-- data 부분은 대문자 절대 금지 -->
 					</div>
 				</div> <%--// 댓글 목록 끝 --%>
 			</div> <%--// 카드1 끝 --%>
@@ -149,8 +149,17 @@
 		// 댓글 게시 버튼 클릭
 		$(".comment-btn").on("click", function() {
 			
-			let postId = $(this).data("post-id");
-			let comment = $(this).prev().val();
+			let postId = $(this).data("post-id"); // data-post-id=13
+			
+			// 댓글 내용 가져오기
+			// 1)
+			//let comment = $(this).siblings("input").val().trim();   // 형제태그 중 input태그 가져온다.
+			
+			// 2) 방금 그 이벤트 발생한 태그의 전 태그
+			let comment = $(this).prev().val().trim();
+			
+			alert(comment);
+			return;
 			
 			if(!comment) {
 				alert("댓글을 입력해주세요.");
@@ -185,15 +194,13 @@
 			$.post(url, param)
 			.done(function(data) {
 				if(data.code == 200) {
-					
 					location.reload();       // 위치 그대로?
 					return;
-				} else {
+				} else if (data.code == 500){
 					alert(data.errorMessage);
+					location.href = "/user/sign-in-view"
 				}
 			});
-				
-		
 		})
 		
 		

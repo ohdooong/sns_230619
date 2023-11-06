@@ -1,6 +1,5 @@
 package com.sns.timeline;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,41 +10,42 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.sns.comment.bo.CommentBO;
-import com.sns.comment.domain.Comment;
-import com.sns.like.bo.LikeBO;
-import com.sns.post.bo.PostBO;
-import com.sns.post.entity.Post;
+import com.sns.timeline.bo.TimelineBO;
+import com.sns.timeline.domain.CardView;
 
 @RequestMapping("/timeline")
 @Controller
 public class TimelineController {
 
 	@Autowired
-	private PostBO postBO;
+	private TimelineBO timelineBO;
 	
-	@Autowired
-	private CommentBO commentBO;
 	
-	@Autowired
-	private LikeBO likeBO;
 	
 	@GetMapping("/timeline-view")
 	public String timelineView(HttpSession session,Model model) {
 		
 		Integer userId = (Integer)session.getAttribute("userId");
 		
-		
-		List<Post> posts = new ArrayList<>();
-		List<Comment> comments = new ArrayList<>();
-		
+		List<CardView> cardViewList = timelineBO.generateCardViewList();  
+				
 		
 		
-		comments = commentBO.getCommentList();
-		posts = postBO.getPostList();
 		
-		model.addAttribute("comments", comments);
-		model.addAttribute("posts", posts);
+//		List<Post> posts = new ArrayList<>();
+//		List<Comment> comments = new ArrayList<>();
+		
+		
+		
+//		comments = commentBO.getCommentList();
+//		posts = postBO.getPostList();
+		
+//		model.addAttribute("comments", comments);
+//		model.addAttribute("posts", posts);
+				
+				
+				
+		model.addAttribute("cardList",cardViewList);
 		model.addAttribute("viewName", "timeline/timeline");
 		return "template/layout";
 	}

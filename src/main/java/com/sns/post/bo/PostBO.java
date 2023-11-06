@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.common.FileManager;
-import com.sns.post.entity.Post;
+import com.sns.post.entity.PostEntity;
 import com.sns.post.repository.PostRepository;
 
 @Service
@@ -19,7 +19,7 @@ public class PostBO {
 	@Autowired
 	private FileManager filemanager;
 	
-	public List<Post> getPostList() {
+	public List<PostEntity> getPostList() {
 		return postRepository.findAll();
 	}
 	
@@ -28,7 +28,7 @@ public class PostBO {
 		String imagePath = null;
 		imagePath = filemanager.saveFile(userLoginId, file);
 		
-		postRepository.save(Post.builder()
+		postRepository.save(PostEntity.builder()
 				.userId(userId)
 				.contents(contents)
 				.imagePath(imagePath)
