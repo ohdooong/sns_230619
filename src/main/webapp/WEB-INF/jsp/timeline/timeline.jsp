@@ -95,7 +95,7 @@
 				
 				<%-- 글 --%>
 				<div class="card-post m-3">
-					<span class="font-weight-bold">${card.post.userId}</span>
+					<span class="font-weight-bold">${card.user.memberId}</span>
 					<span>${card.post.contents}</span>
 				</div>
 				
@@ -107,24 +107,23 @@
 				<%-- 댓글 목록 --%>
 				<div class="card-comment-list m-2">
 				
-					<c:forEach items="${comments}" var="comment">
-					<c:if test="${comment.postId eq post.id}">
 					<%-- 댓글 내용들 --%>
+					<c:forEach items="${card.commentList}" var="commentview">
 					<div class="card-comment m-1">
-						<span class="font-weight-bold">${comment.userId}</span>
-						<span>${comment.comments}</span>
+						<span class="font-weight-bold">${commentview.user.memberId}</span>
+						<span>${commentview.comment.comments}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
 						<a href="#" class="comment-del-btn">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10" height="10">
 						</a>
 					</div>
-					</c:if>
 					</c:forEach>
+					
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
-						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>     <!-- data 부분은 대문자 절대 금지 -->
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${card.post.id}">게시</button>     <!-- data 부분은 대문자 절대 금지 -->
 					</div>
 				</div> <%--// 댓글 목록 끝 --%>
 			</div> <%--// 카드1 끝 --%>
@@ -157,9 +156,7 @@
 			
 			// 2) 방금 그 이벤트 발생한 태그의 전 태그
 			let comment = $(this).prev().val().trim();
-			
-			alert(comment);
-			return;
+		
 			
 			if(!comment) {
 				alert("댓글을 입력해주세요.");

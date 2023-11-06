@@ -25,25 +25,18 @@ public class TimelineController {
 	@GetMapping("/timeline-view")
 	public String timelineView(HttpSession session,Model model) {
 		
+		// 예전 방식
+//		List<Post> posts = new ArrayList<>();
+//		List<Comment> comments = new ArrayList<>();
+//		comments = commentBO.getCommentList();
+//		posts = postBO.getPostList();
+//		model.addAttribute("comments", comments);
+//		model.addAttribute("posts", posts);
+		
+		// CardView List를 만들어서 필요한 정보를 한번에 뿌린다.
 		Integer userId = (Integer)session.getAttribute("userId");
 		
 		List<CardView> cardViewList = timelineBO.generateCardViewList();  
-				
-		
-		
-		
-//		List<Post> posts = new ArrayList<>();
-//		List<Comment> comments = new ArrayList<>();
-		
-		
-		
-//		comments = commentBO.getCommentList();
-//		posts = postBO.getPostList();
-		
-//		model.addAttribute("comments", comments);
-//		model.addAttribute("posts", posts);
-				
-				
 				
 		model.addAttribute("cardList",cardViewList);
 		model.addAttribute("viewName", "timeline/timeline");

@@ -31,33 +31,31 @@ public class TimelineBO {
 	// output : List<CardView>
 	
 	public List<CardView> generateCardViewList() {
-		List<CardView> cardViewList = new ArrayList<>(); // []
 		
+		// 카드 정보 넣을 리스트 초기화
+		List<CardView> cardViewList = new ArrayList<>(); // []
 		
 		// 글 목록을 가져온다. List<Post>
 		List<PostEntity> postList = postBO.getPostList();
 		
-		
 		// 글 목록 반복문 순회, 글쓴 유저정보 삽입
 		Iterator<PostEntity> iter = postList.iterator();
 		while (iter.hasNext()) {
+			
 			CardView card = new CardView();
-			
-			
-			PostEntity post1 = iter.next();    // iterator로 반복할땐 이렇게 담아놓자
+			PostEntity post = iter.next();    // iterator로 반복할땐 이렇게 담아놓자
 			
 			// 글 정보 세팅
-			card.setPost(post1);
+			card.setPost(post);
 			
 			// 글쓴이 정보 세팅
-			UserEntity user = userBO.getUserEntityById(post1.getUserId());
+			UserEntity user = userBO.getUserEntityById(post.getUserId());
 			card.setUser(user);
 			
 			// 좋아요
 			
 			// 댓글들
-			
-			List<CommentView> commentList = commentBO.generateCommentViewList(post1.getId());
+			List<CommentView> commentList = commentBO.generateCommentViewList(post.getId());
 			card.setCommentList(commentList);
 			
 			// ★★★★★★★★★★★★★★★★★ 마지막에 CardViewList에 Card를 넣는다.  !!!
