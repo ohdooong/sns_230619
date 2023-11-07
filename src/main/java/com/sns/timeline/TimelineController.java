@@ -36,7 +36,7 @@ public class TimelineController {
 		// CardView List를 만들어서 필요한 정보를 한번에 뿌린다.
 		Integer userId = (Integer)session.getAttribute("userId");
 		
-		List<CardView> cardViewList = timelineBO.generateCardViewList();  
+		List<CardView> cardViewList = timelineBO.generateCardViewList(userId);  
 				
 		model.addAttribute("cardList",cardViewList);
 		model.addAttribute("viewName", "timeline/timeline");

@@ -25,8 +25,9 @@ public class CardView {
 	private List<CommentView> commentList;
 	
 	// 좋아요 개수
+	private int likeCount;
 	
 	// 좋아요 클릭했는지 여부
-	
+	private boolean filledLike;
 	
 }

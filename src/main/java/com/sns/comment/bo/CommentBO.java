@@ -29,6 +29,11 @@ public class CommentBO {
 		return commentMapper.selectCommentList();
 	}
 	
+	// input: 삭제할 댓글번호      output: X
+	public void deleteCommentById(int commentId) {
+		commentMapper.deleteCommentById(commentId);
+	}
+	
 	
 	// input: 글번호
 	// output: List<CommentView>

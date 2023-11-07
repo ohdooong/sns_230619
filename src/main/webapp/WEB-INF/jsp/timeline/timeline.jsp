@@ -86,11 +86,15 @@
 				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn">
-						<img id="filledHeart" src="/static/img/timeline/heart-icon-filled.png" width="18" height="18" alt="filled heart" class="">
-						<img id="emptyHeart" src="/static/img/timeline/heart-icon.png" width="18" height="18" alt="filled heart" class="d-none">
+					<a href="#" class="like-btn" data-post-id="${card.post.id}">
+					<c:if test="${card.filledLike eq true}">
+						<img src="/static/img/timeline/heart-icon-filled.png" width="18" height="18" alt="filled heart" class="filledHeart">
+					</c:if>
+					<c:if test="${card.filledLike eq false}">
+						<img src="/static/img/timeline/heart-icon.png" width="18" height="18" alt="empty heart" class="emptyHeart">
+					</c:if>
 					</a>
-				좋아요 156개
+				좋아요 ${card.likeCount}개
 				</div>
 				
 				<%-- 글 --%>
@@ -108,15 +112,18 @@
 				<div class="card-comment-list m-2">
 				
 					<%-- 댓글 내용들 --%>
-					<c:forEach items="${card.commentList}" var="commentview">
+					<c:forEach items="${card.commentList}" var="commentView">
 					<div class="card-comment m-1">
-						<span class="font-weight-bold">${commentview.user.memberId}</span>
-						<span>${commentview.comment.comments}</span>
+						<span class="font-weight-bold">${commentView.user.memberId}</span>
+						<span>${commentView.comment.comments}</span>
 						
 						<%-- 댓글 삭제 버튼 --%>
-						<a href="#" class="comment-del-btn">
+						<%-- 로그인 된 사람과 댓글쓴이 일치 => 삭제버튼 노출 --%>
+						<c:if test="${userId eq commentView.user.id}">
+						<a href="#" class="comment-del-btn" data-comment-id="${commentView.comment.id}">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10" height="10">
 						</a>
+						</c:if>
 					</div>
 					</c:forEach>
 					
@@ -139,8 +146,33 @@
 		$(".like-btn").on("click", function(e) {
 			e.preventDefault();   // a태그 올라가는 현상 방지
 			
-			// 
+			let postId = $(this).data("post-id");
 			
+			$.ajax({
+				
+				//request
+				type:"GET"
+				, url:"/like/" + postId
+				
+				//response
+				,success:function(data) {
+					if (data.code == 200) {
+						
+						location.reload(true);   // 하트 채워지거나 비워지거나
+						
+					} else if (data.code == 300) {
+						
+						location.reload(true);
+						
+					} else if (data.code == 500) {
+						alert(data.errorMessage);
+					}
+				}
+				
+				,error:function(request, status, error) {
+					alert("로직 실패");
+				}
+			});
 			
 		});
 		
@@ -180,7 +212,7 @@
 					}
 				} 
 				
-				, error(request,status,error) {
+				, error:function(request,status,error) {
 					alert("등록 실패");
 				}				
 			}); */
@@ -275,6 +307,44 @@
 			
 			
 		});
+		
+		
+		
+		$(".comment-del-btn").on('click', function(e) {
+			//alert("댓글 삭제 클릭");
+			e.preventDefault();	// a 태그의 올라가는 현상 방지
+			
+			let commentId = $(this).data("comment-id");
+			//alert(commentId);
+			
+			$.ajax({
+				//request
+				
+				type:"DELETE"
+				, url:"/comment/delete"
+				, data:{"commentId":commentId}
+			
+				// response
+				,success:function(data) {
+					if (data.code == 200) {
+						location.reload();
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				
+				,error:function(request,status, error) {
+					alert("댓글삭제 실패")
+				}
+				
+			});
+			
+			
+		});
+		
+		
+		
+		
 		
 	});
 

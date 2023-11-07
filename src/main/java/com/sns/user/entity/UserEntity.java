@@ -25,6 +25,7 @@ import lombok.ToString;
 @Table(name="user_info")
 @Entity
 public class UserEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
