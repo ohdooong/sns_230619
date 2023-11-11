@@ -32,6 +32,7 @@ public class UserController {
 	 * @param model
 	 * @return
 	 */
+	// http:localhost:8050/user/sign-in-view
 	@GetMapping("/sign-in-view")
 	public String signInView(Model model) {
 		model.addAttribute("viewName", "user/signIn");

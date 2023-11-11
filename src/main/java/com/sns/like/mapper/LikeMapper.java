@@ -20,6 +20,8 @@ public interface LikeMapper {
 			@Param("userId") int userId,
 			@Param("postId") int postId);
 	
+	public void deleteByPostId(int postId);
+	
 	public int selectLikeCountByPostId(int postId);
 	
 	public int selectLikeBooleanByUserId(int userId);

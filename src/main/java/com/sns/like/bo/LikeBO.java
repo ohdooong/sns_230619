@@ -34,11 +34,13 @@ public class LikeBO {
 	}
 	
 	public int getLikeBooleanByUserId(
-			@Param("userId") int userId,
-			@Param("postId") int postId) {
+			int userId,
+			int postId) {
 		return likeMapper.selectLikeBooleanByUserId(userId);
 	}
 	
-	
+	public void deleteByPostId(int postId) {
+		likeMapper.deleteByPostId(postId);
+	}
 	
 }
