@@ -30,6 +30,9 @@ public class PostRestController {
 		
 		postBO.deletePostByPostIdUserId(userId, postId);
 		
+		result.put("code", 200);
+		result.put("result", "success");
+		
 		
 		
 		return result;

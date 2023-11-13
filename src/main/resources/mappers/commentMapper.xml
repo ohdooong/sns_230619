@@ -54,15 +54,8 @@
 			`id` = #{commentId}
 	</delete>	
 	
-	<delete id="deleteCommentById" parameterType="int">
-		DELETE
-		FROM
-			`comment`
-		WHERE
-			`id` = #{commentId}
-	</delete>	
 	
-	<delete id="deleteByUserIdPostId" parameterType="int">
+	<delete id="deleteByPostId" parameterType="int">
 		DELETE
 		FROM
 			`comment`

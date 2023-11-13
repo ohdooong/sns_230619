@@ -61,6 +61,11 @@ public class PostBO {
 			return;
 		}
 		
+		if (postEntity.getUserId() != userId) {
+			
+		}
+		
+		
 		// db글 삭제
 		postRepository.delete(postEntity);
 		
